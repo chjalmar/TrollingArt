@@ -17,3 +17,5 @@ We want to refresh the discourse of the art enciclopedia and reveal it's funny s
 Still a work in progress, but in the video you can see the code working: when you create a new user to the WP site vía wp-admin, and give it a "Wiki JSON" URL, the code will automatically retrieve and assign to that user the correct First Name, Last Name, Nickname and Biographical info (other features from the Wiki profile to be added soon).
 
 Afterwards, when creating or editing a post, it can be assigned to a previously created user as an artist profile, so that basic author information for the artwork is displayed right below the post main content.
+
+UPDATE: The script now recovers the artist's picture from the Wiki page as "Wiki Pic". Useful for setting up the author's profile picture.
