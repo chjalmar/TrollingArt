@@ -216,6 +216,11 @@ add_role('basic_contributor', 'Basic Contributor', array(
     'delete_posts' => false, // Use false to explicitly deny
 ));
 
+add_role('pintor', 'Pintor', array(
+   'read' => false, // True allows that capability
+   'edit_posts' => false,
+   'delete_posts' => false, // Use false to explicitly deny
+));
 
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 /* 																	Crear Memes                                         */
@@ -223,6 +228,32 @@ add_role('basic_contributor', 'Basic Contributor', array(
 
 function makeMeme($post_id) {
 
+
+/*echo $image; exit();*/
+
+  if (has_post_thumbnail()) {
+
+    //Obtener ruta completa de la imagen original
+    $image_filepath = get_attached_file( get_post_thumbnail_id($post_id));
+    //sólo el nombre de la imagen con su extensión ('.jpg')
+    $image_name_full = wp_basename ( $image_filepath ); 
+    //el nombre de la imagen SIN la extensión
+    $image_name = wp_basename ($image_filepath, ".jpg");
+    //ruta local a las imágenes del post en cuestión
+    $post_filepath = str_replace($image_name_full,"",$image_filepath);
+    //imagen intermedia local, sólo con el texto convertido a imagen
+    $textimage = $post_filepath . "textimg.jpg";
+    //imagen resultante del proceso, a guardarse en el mismo directorio que las imágenes del post
+    $outputfile = $post_filepath . $image_name . "_meme.jpg";
+    
+    //texto del post a ser agregado a la imagen
+    $texto = get_post_field('post_content', $post_id);
+    
+    //función que crea la imagen intermedia textimg.jpg que luego se sumará sobre la original
+    CrearTextoImagen($texto, $image_filepath);
+    //función que agrega la imagen intermedia sobre la original
+    merge($textimage,$image_filepath,$outputfile);
+  }
 }
 add_action( 'save_post', 'makeMeme', 100 );
 
@@ -255,3 +286,94 @@ require get_template_directory() . '/inc/jetpack.php';
 * Bootstrap integration
 */
 require get_template_directory() . '/inc/functions-strap.php';
+
+
+/* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+/* 												 FUNCIONES DE PROCESAMIENTO DE IMÁGENES                       */
+/* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+
+function CrearTextoImagen($text, $source_file) {
+	//averigüemos el directorio local de la imagen para guardar la siguiente ahí
+	
+	$image_name = wp_basename ($source_file);
+	$public_file_path = str_replace($image_name,"",$source_file);
+	
+	//Establecer tipo y tamaño de letra
+  $font = './fonts/arial.ttf';
+  $font_size = 12;
+  
+  // Mide dimensiones de la imagen original
+  list($width, $height) = getimagesize($source_file);
+  
+  //Asignar el ID de un tamaño estándar de fuentes del sistema, para medirlo
+  //y usar esas medidas para hacerle wrap al texto
+  $font_id = 3;
+  
+  
+  //Romper el texto con saltos de línea de acuerdo con el ancho de la imagen
+  $h = imagefontheight($font_id);
+  $fw = imagefontwidth($font_id);
+  $text = wordwrap($text, ($width / $fw), "\n", FALSE);
+  
+  // Establecer el margen de la izquierda (x) y de arriba (y) para el texto
+  $offset_x = 3;
+  $offset_y = 20;
+   
+  // Obtener el tamaño del área de texto de acuerdo con
+  //la longitud del textoy el tipo de fuente
+  $dims = imagettfbbox($font_size, 0, $font, $text);
+  $text_width = $dims[4] - $dims[6] + $offset_x;
+  $text_height = $dims[3] - $dims[5] + $offset_y;
+   
+  // crea una imagen vacía del mismo ancho que la imagen $image_p a la que sumaré el texto
+  $image_p = imagecreatetruecolor($width, $text_height);
+  
+  // Preparar los colores de texto y de fondo
+  $text_color = imagecolorallocate($image_p, 0, 0, 0);
+  $bg_color = imagecolorallocate($image_p, 255, 255, 255);
+  
+  // Agregar el fondo del mismo ancho $width que la imagen
+  imagefilledrectangle($image_p, 0, 0, $width, $text_height, $bg_color);
+   
+  // Add text
+  imagettftext($image_p, $font_size, 0, $offset_x, $offset_y, $text_color, $font, $text);
+   
+  // Save the picture
+  imagejpeg($image_p, $public_file_path . 'textimg.jpg', 100); 
+  
+  // Clear
+  imagedestroy($image_p);
+}
+
+//Función para sumar las dos imágenes, una arriba y la otra abajo
+
+function merge($filename_x, $filename_y, $filename_result) {
+
+ // Get dimensions for specified images
+
+ list($width_x, $height_x) = getimagesize($filename_x);
+ list($width_y, $height_y) = getimagesize($filename_y);
+
+ // Create new image with desired dimensions
+
+ $image = imagecreatetruecolor($width_x, $height_x + $height_y);
+
+ // Load images and then copy to destination image
+
+ $image_x = imagecreatefromjpeg($filename_x);
+ $image_y = imagecreatefromjpeg($filename_y);
+
+ imagecopy($image, $image_x, 0, 0, 0, 0, $width_x, $height_x);
+ imagecopy($image, $image_y, 0, $height_x, 0, 0, $width_y, $height_y);
+
+ // Save the resulting image to disk (as JPEG)
+
+ imagejpeg($image, $filename_result);
+
+ // Clean up
+
+ imagedestroy($image);
+ imagedestroy($image_x);
+ imagedestroy($image_y);
+
+}
