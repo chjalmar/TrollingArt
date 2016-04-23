@@ -18,4 +18,6 @@ Still a work in progress, but in the video you can see the code working: when yo
 
 Afterwards, when creating or editing a post, it can be assigned to a previously created user as an artist profile, so that basic author information for the artwork is displayed right below the post main content.
 
-UPDATE: The script now recovers the artist's picture from the Wiki page as "Wiki Pic". Useful for setting up the author's profile picture.
+UPDATE 22/04/2016: The script now recovers the artist's picture from the Wiki page as "Wiki Pic". Useful for setting up the author's profile picture.
+
+UPDATE 23/04/2016: Added functions for creating a meme image by adding the Post content as an image on the top of the Post's Featured Image
