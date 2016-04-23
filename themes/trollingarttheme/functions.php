@@ -124,6 +124,7 @@ function trollingarttheme_scripts() {
 	}
 
     wp_enqueue_script( 'bootstrap', get_template_directory_uri() . '/bootstrap/js/bootstrap.min.js', array( 'jquery' ), 'v3.3.5', true );
+    wp_enqueue_script( 'gmaps', 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDRTFRrVg-LW1jzKi1PWgZpyLJCIO0sTmE&callback=initMap', array( 'jquery' ), 'v3.3.5', true );
 		wp_enqueue_script( 'trolling-js', get_template_directory_uri() . '/js/trollingart.js', array( 'jquery' ), 'v3.3.5', true );
 }
 add_action( 'wp_enqueue_scripts', 'trollingarttheme_scripts' );
@@ -210,21 +211,74 @@ add_action('profile_update', 'save_custom_user_profile_fields');
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 
 
-add_role('basic_contributor', 'Basic Contributor', array(
+add_role('wikiartist', 'WikiArtist', array(
     'read' => false, // True allows that capability
     'edit_posts' => false,
     'delete_posts' => false, // Use false to explicitly deny
 ));
 
-add_role('pintor', 'Pintor', array(
-   'read' => false, // True allows that capability
-   'edit_posts' => false,
-   'delete_posts' => false, // Use false to explicitly deny
-));
+/* +++++++++++++++++++++ */
+/* 		Wiki Obra          */
+/* +++++++++++++++++++++ */
+
+function getWikiInfo($museum, $masterpiece) {
+	$str = file_get_contents('https://en.wikipedia.org/w/api.php?format=json&action=query&titles='.$museum.'|'.$masterpiece.'&prop=extracts|coordinates&exlimit=max&explaintext&exintro');
+	$parsed_json = json_decode($str);
+	foreach($parsed_json->query->pages as $k) {
+			//echo $k->extract."<br><br>";
+			if (!preg_match('/museum/',$k->extract)) {
+				$infoMasterpiece = $k->extract;
+			}
+			if (!empty($k->coordinates)) {
+				$museo = $k->title;
+				foreach($k->coordinates as $q) {
+					$lat = $q->lat;
+					$lon = $q->lon;
+				}
+			}
+	}
+	$output = '<div>';
+	$output .= $infoMasterpiece;
+	$output .= '</div>';
+	$output .= '<div>';
+	$output .= '<h3>Place:</h3>'.$museo;
+	$output .= '</div>';
+	echo $output;
+?>
+	<div id="map-canvas"></div>
+		<script>
+			 var map;
+			 function initMap() {
+				 var myLatlng = new google.maps.LatLng(<?php echo $lat; ?>,<?php echo $lon; ?>);
+				 map = new google.maps.Map(document.getElementById('map-canvas'), {
+					 center: myLatlng,
+					 zoom: 16
+				 });
+				 var marker = new google.maps.Marker({
+			    position: myLatlng,
+			    map: map,
+			    title: '<?php echo $museo; ?>'
+			  });
+			 }
+	 </script>
+<?php
+}
+
 
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 /* 																	Crear Memes                                         */
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
+
+function getMemeName($image_filepath){
+	 $image_name_full = wp_basename ( $image_filepath ); 
+   //el nombre de la imagen SIN la extensión
+   $image_name = wp_basename ($image_filepath, ".jpg");
+   //ruta local a las imágenes del post en cuestión
+   $post_filepath = str_replace($image_name_full,"",$image_filepath);
+	 //Crear el nombre del archivo Meme
+	 $outputfile = $post_filepath . $image_name . "_meme.jpg";
+   return $outputfile;	
+}
 
 function makeMeme($post_id) {
 
@@ -237,14 +291,15 @@ function makeMeme($post_id) {
     $image_filepath = get_attached_file( get_post_thumbnail_id($post_id));
     //sólo el nombre de la imagen con su extensión ('.jpg')
     $image_name_full = wp_basename ( $image_filepath ); 
-    //el nombre de la imagen SIN la extensión
-    $image_name = wp_basename ($image_filepath, ".jpg");
+    
+    
+    
     //ruta local a las imágenes del post en cuestión
     $post_filepath = str_replace($image_name_full,"",$image_filepath);
     //imagen intermedia local, sólo con el texto convertido a imagen
     $textimage = $post_filepath . "textimg.jpg";
     //imagen resultante del proceso, a guardarse en el mismo directorio que las imágenes del post
-    $outputfile = $post_filepath . $image_name . "_meme.jpg";
+    $outputfile = getMemeName($image_filepath);
     
     //texto del post a ser agregado a la imagen
     $texto = get_post_field('post_content', $post_id);
