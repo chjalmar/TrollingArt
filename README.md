@@ -20,4 +20,6 @@ Afterwards, when creating or editing a post, it can be assigned to a previously 
 
 UPDATE 22/04/2016: The script now recovers the artist's picture from the Wiki page as "Wiki Pic". Useful for setting up the author's profile picture.
 
-UPDATE 23/04/2016: Added functions for creating a meme image by adding the Post content as an image on the top of the Post's Featured Image
+UPDATE 22/04/2016: Added functions for creating a meme image by adding the Post content as an image on the top of the Post's Featured Image.
+
+UPDATE 23/04/2016: Artwork localization and description added to posts, obtained from Wikipedia API. Now you can see the Meme image, with the joke addeed, on the post; also you can see the map with the exact localization of the artwork.
