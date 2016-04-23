@@ -16,6 +16,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="profile" href="http://gmpg.org/xfn/11">
 <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
+<?php 
+	if (is_home() || is_front_page()){
+		$tags = 'Art memes, Art jokes, Art gif and Art';
+	}else {
+		$datosArtists[] = get_field('artist');
+		$post = get_post($post->ID);
+		$tags = preg_replace('/[^A-Za-z0-9\-]/', ' ', get_field('masterpiece'));
+		$tags .= ' - '.$datosArtists[0]['display_name'].". ".$post->post_content;
+		//http://www.bootply.com/Tc1MNAk2MX#
+	}
+?>
+<meta name="description" content="<?php echo mb_strimwidth($tags, 0, 155, "..."); ?>"/>
+
 <!--[if lt IE 9]>
 <script src="<?php echo get_template_directory_uri(); ?>/js/html5.js" type="text/javascript"></script>
 <script src="//cdn.jsdelivr.net/respond/1.4.2/respond.min.js"></script>

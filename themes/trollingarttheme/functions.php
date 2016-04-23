@@ -63,11 +63,12 @@ function trollingarttheme_setup() {
 	 * Enable support for Post Formats.
 	 * See https://developer.wordpress.org/themes/functionality/post-formats/
 	 */
+
 	add_theme_support( 'post-formats', array(
-		'aside',
-		'image',
-		'video',
-		'quote',
+		//'aside',
+		//'image',
+		//'video',
+		//'banner',
 		'link',
 	) );
 
@@ -311,6 +312,8 @@ function makeMeme($post_id) {
   }
 }
 add_action( 'save_post', 'makeMeme', 100 );
+
+
 
 /**
  * Implement the Custom Header feature.
