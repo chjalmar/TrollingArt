@@ -131,6 +131,10 @@ function trollingarttheme_scripts() {
 }
 add_action( 'wp_enqueue_scripts', 'trollingarttheme_scripts' );
 
+/* +++++++++++++++++++++++++++++++++++++++++++ */
+/* 					Get First Cat                      */
+/* +++++++++++++++++++++++++++++++++++++++++++ */
+
 function getFirstCat($post_id) {
   $cont=0;
   foreach((get_the_category()) as $category) {
@@ -140,6 +144,21 @@ function getFirstCat($post_id) {
     $cont++;
   }
 	echo $firstCat;
+}
+
+/* +++++++++++++++++++++++++++++++++++++++++++ */
+/* 					Share Buttons                      */
+/* +++++++++++++++++++++++++++++++++++++++++++ */
+
+function share() {
+	//https://davidwalsh.name/bitly-php
+	$urlPost = get_permalink( $post->ID );
+?>
+<div class="pull-right">
+	<a class="js-social-share btn btn-danger btn-lg" href="http://www.facebook.com/sharer.php?u=<?php echo $urlPost; ?>" target="_blank"><i class="fa fa-facebook"></i></a>
+	<a class="js-social-share btn btn-success btn-lg" href="https://twitter.com/share?url=<?php echo $urlPost; ?>&amp;text=Simple%20Share%20Buttons&amp;hashtags=simplesharebuttons"><i class="fa fa-twitter"></i></a>
+</div>
+<?php
 }
 
 /* +++++++++++++++++++++++++++++++++++++++++++ */

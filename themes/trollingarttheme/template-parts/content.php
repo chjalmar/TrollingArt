@@ -50,15 +50,12 @@
           </a>
 					<p class="panel-tags"><?php $posttags = get_the_tags(); if ($posttags) { foreach($posttags as $tag) { echo '<span class="tags">#'.$tag->name . '</Span> '; } } ?></p>
       </div>
-      <div class="panel-footer">
-          <div class="pull-right">
-          <button type="button" class="btn btn-danger btn-lg"><i class="fa fa-facebook"></i></button>
-          <button type="button" class="btn btn-success btn-lg btn-xl"><i class="fa fa-twitter"></i></button>
-          </div>
-          <button type="button" class="btn btn-default">+1</button>
-          <button type="button" class="btn btn-default">
-              <span class="glyphicon glyphicon-share-alt"></span>
-          </button>
-      </div>
+			<div class="panel-footer">
+		      <?php share(); ?>
+					<button type="button" class="btn btn-default">+1</button>
+					<button type="button" class="btn btn-default">
+							<span class="glyphicon glyphicon-share-alt"></span>
+					</button>
+			</div>
   </div>
 </article><!-- #post-## -->
