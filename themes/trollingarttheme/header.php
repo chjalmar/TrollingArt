@@ -16,7 +16,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="profile" href="http://gmpg.org/xfn/11">
 <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
-<?php 
+<?php
 	if (is_home() || is_front_page()){
 		$tags = 'Art memes, Art jokes, Art gif and Art';
 	}else {
@@ -47,7 +47,7 @@
       </a>
     </div>
       <div class="navbar-collapse collapse">
-        <ul class="nav navbar-nav">  
+        <ul class="nav navbar-nav">
           <li><a href="#">Link</a></li>
           <li><a href="#">Link</a></li>
           <li class="dropdown">
@@ -57,7 +57,7 @@
               <li><a href="#">Sub-link</a></li>
               <li><a href="#">Sub-link</a></li>
               <li><a href="#">Sub-link</a></li>
-              
+
             </ul>
           </li>
         </ul>
@@ -88,15 +88,13 @@
   <div class="container">
     <div class="row">
       <div class="col-md-6">
-        <h1><a title="Scroll down for your viewing pleasure" href="#">Bootable Template</a>
-          <p class="lead">3-column Theme + Layout for Bootstrap 3.</p></h1>
+        <img src="<?php echo get_template_directory_uri(); ?>/images/logo-trollingart.jpg" class="img-responsive"> 
       </div>
       <div class="col-md-6">
         <div class="well pull-right">
-          <img src="//placehold.it/280x100/E7E7E7">        
+          <img src="//placehold.it/280x100/E7E7E7">
         </div>
       </div>
     </div>
   </div>
 </header>
-
