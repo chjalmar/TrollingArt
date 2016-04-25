@@ -38,58 +38,65 @@
 </head>
 
 <body <?php body_class(); ?>>
-<div id="page" class="site container">
-	<header id="masthead" class="site-header" role="banner">
-		<div class="site-branding">
-			<?php if ( is_front_page() || is_home() ) : ?>
-				<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
-			<?php else : ?>
-				<p class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></p>
-			<?php endif;
+<nav class="navbar navbar-static">
+   <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="http://www.bootply.com" target="ext"><b>Bootply</b></a>
+      <a class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse">
+        <span class="glyphicon glyphicon-chevron-down"></span>
+      </a>
+    </div>
+      <div class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">  
+          <li><a href="#">Link</a></li>
+          <li><a href="#">Link</a></li>
+          <li class="dropdown">
+            <a class="dropdown-toggle" href="#" data-toggle="dropdown">Channels</a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Sub-link</a></li>
+              <li><a href="#">Sub-link</a></li>
+              <li><a href="#">Sub-link</a></li>
+              <li><a href="#">Sub-link</a></li>
+              
+            </ul>
+          </li>
+        </ul>
+        <ul class="nav navbar-right navbar-nav">
+          <li class="dropdown">
+            <a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="glyphicon glyphicon-search"></i></a>
+            <ul class="dropdown-menu" style="padding: 12px;">
+                <form class="form-inline">
+     				<button class="btn btn-default pull-right" type="submit"><i class="glyphicon glyphicon-search"></i></button><input class="form-control pull-left" type="text" placeholder="Search">
+                </form>
+             </ul>
+          </li>
+          <li class="dropdown">
+            <a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i> <i class="glyphicon glyphicon-chevron-down"></i></a>
+            <ul class="dropdown-menu">
+              <li><a href="#">Login</a></li>
+              <li><a href="#">Profile</a></li>
+              <li class="divider"></li>
+              <li><a href="#">About</a></li>
+             </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+</nav><!-- /.navbar -->
 
-			$description = get_bloginfo( 'description', 'display' );
-			if ( $description || is_customize_preview() ) : ?>
-				<p class="site-description"><?php echo $description; /* WPCS: xss ok. */ ?></p>
-			<?php endif; ?>
-		</div><!-- .site-branding -->
+<header class="masthead">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h1><a title="Scroll down for your viewing pleasure" href="#">Bootable Template</a>
+          <p class="lead">3-column Theme + Layout for Bootstrap 3.</p></h1>
+      </div>
+      <div class="col-md-6">
+        <div class="well pull-right">
+          <img src="//placehold.it/280x100/E7E7E7">        
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
 
-		<nav id="site-navigation" class="main-navigation navbar navbar-default" role="navigation">
-			<a class="skip-link screen-reader-text" href="#content"><?php _e( 'Skip to content', 'trollingarttheme' ); ?></a>
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-main">
-                    <span class="sr-only"><?php _e('Toggle navigation', 'trollingarttheme'); ?></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <!--<a class="navbar-brand" href="#">Brand</a>-->
-            </div>
-
-            <div class="collapse navbar-collapse" id="navbar-collapse-main">
-	            <ul class="nav navbar-nav">
-		            <?php if( has_nav_menu( 'primary' ) ) :
-			            wp_nav_menu( array(
-		                        'theme_location'  => 'primary',
-		                        'container'       => false,
-		                        //'menu_class'      => 'nav navbar-nav',//  'nav navbar-right'
-		                        'walker'          => new Bootstrap_Nav_Menu(),
-		                        'fallback_cb'     => null,
-				                'items_wrap'      => '%3$s',// skip the containing <ul>
-		                    )
-		                );
-	                else :
-		                wp_list_pages( array(
-				                'menu_class'      => 'nav navbar-nav',//  'nav navbar-right'
-				                'walker'          => new Bootstrap_Page_Menu(),
-				                'title_li'        => null,
-			                )
-		                );
-		            endif; ?>
-	            </ul>
-	            <?php get_search_form(); ?>
-            </div><!-- /.navbar-collapse -->
-
-		</nav><!-- #site-navigation -->
-	</header><!-- #masthead -->
-
-	<div id="content" class="site-content">

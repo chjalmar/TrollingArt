@@ -357,8 +357,8 @@ function CrearTextoImagen($text, $source_file) {
 	$public_file_path = str_replace($image_name,"",$source_file);
 	
 	//Establecer tipo y tamaño de letra
-  $font = './fonts/arial.ttf';
-  $font_size = 12;
+  $font = get_stylesheet_directory().'/fonts/arial.ttf';
+  $font_size = 14;
   
   // Mide dimensiones de la imagen original
   list($width, $height) = getimagesize($source_file);
