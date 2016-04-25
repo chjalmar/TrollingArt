@@ -27,7 +27,7 @@
 			-->
       <div class="panel-google-plus-tags">
           <ul>
-              <li>#Snippet</li>
+              <li>#<?php getFirstCat($post_id); ?></li>
           </ul>
       </div>
       <div class="panel-heading">
@@ -38,8 +38,8 @@
 						$url_avatar = $split[1]; // X between quotes
 					?>
           <img class="img-circle pull-left" src="<?php echo $url_avatar; ?>" alt="Mouse0270">
-          <h3>Robert McIntosh</h3>
-          <h5><span>Shared publicly</span> - <span>Jun 25, 2014</span> </h5>
+          <h3><?php the_author_meta('display_name') ?></h3>
+          <h5><span>Shared publicly</span> - <span><?php echo get_the_date('Y, m, d');?></span> </h5>
       </div>
       <div class="panel-body">
 					<?php the_title( sprintf( '<h3 class="entry-title"><a href="%s" rel="bookmark">', esc_url( get_permalink() ) ), '</a></h3>' ); ?>
@@ -47,16 +47,17 @@
           <a class="panel-google-plus-image" href="https://plus.google.com/photos/115077481218689845626/albums/6028961040749409985/6028961040650432498">
 							<?php $imageMeme = getMemeName(wp_get_attachment_url( get_post_thumbnail_id($post_id))); ?>
               <img src="<?php echo $imageMeme; ?>">
-          </a>					
+          </a>
+					<p class="panel-tags"><?php $posttags = get_the_tags(); if ($posttags) { foreach($posttags as $tag) { echo '<span class="tags">#'.$tag->name . '</Span> '; } } ?></p>
       </div>
       <div class="panel-footer">
           <div class="pull-right">
-          <button type="button" class="btn btn-danger btn-lg"><i class="glyphicon glyphicon-heart"></i></button>
-          <button type="button" class="btn btn-success btn-lg btn-xl"><i class="glyphicon glyphicon-link"></i></button>
+          <button type="button" class="btn btn-danger btn-lg"><i class="fa fa-facebook"></i></button>
+          <button type="button" class="btn btn-success btn-lg btn-xl"><i class="fa fa-twitter"></i></button>
           </div>
-          <button type="button" class="[ btn btn-default ]">+1</button>
-          <button type="button" class="[ btn btn-default ]">
-              <span class="[ glyphicon glyphicon-share-alt ]"></span>
+          <button type="button" class="btn btn-default">+1</button>
+          <button type="button" class="btn btn-default">
+              <span class="glyphicon glyphicon-share-alt"></span>
           </button>
       </div>
   </div>

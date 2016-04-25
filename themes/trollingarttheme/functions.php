@@ -116,6 +116,7 @@ add_action( 'widgets_init', 'trollingarttheme_widgets_init' );
  */
 function trollingarttheme_scripts() {
 	wp_enqueue_style( '_s-style', get_stylesheet_uri() );
+	wp_enqueue_style('font-awesome', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css');
 	wp_enqueue_style('trolling-styles', get_template_directory_uri() . '/css/trollingart.css');
 
 	wp_enqueue_script( '_s-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), '20130115', true );
@@ -129,6 +130,17 @@ function trollingarttheme_scripts() {
 		wp_enqueue_script( 'trolling-js', get_template_directory_uri() . '/js/trollingart.js', array( 'jquery' ), 'v3.3.5', true );
 }
 add_action( 'wp_enqueue_scripts', 'trollingarttheme_scripts' );
+
+function getFirstCat($post_id) {
+  $cont=0;
+  foreach((get_the_category()) as $category) {
+    if ($cont == 0) {
+      $firstCat = $category->cat_name;
+    }
+    $cont++;
+  }
+	echo $firstCat;
+}
 
 /* +++++++++++++++++++++++++++++++++++++++++++ */
 /* 					Numeric Pagination                 */
@@ -345,9 +357,9 @@ function getWikiInfo($museum, $masterpiece) {
 
 function getMemeName($image_filepath){
 	 $image_name_full = wp_basename ( $image_filepath );
-   //el nombre de la imagen SIN la extensi�n
+   //el nombre de la imagen SIN la extension
    $image_name = wp_basename ($image_filepath, ".jpg");
-   //ruta local a las im�genes del post en cuesti�n
+   //ruta local a las imagenes del post en cuestion
    $post_filepath = str_replace($image_name_full,"",$image_filepath);
 	 //Crear el nombre del archivo Meme
 	 $outputfile = $post_filepath . $image_name . "_meme.jpg";
@@ -363,24 +375,24 @@ function makeMeme($post_id) {
 
     //Obtener ruta completa de la imagen original
     $image_filepath = get_attached_file( get_post_thumbnail_id($post_id));
-    //s�lo el nombre de la imagen con su extensi�n ('.jpg')
+    //solo el nombre de la imagen con su extension ('.jpg')
     $image_name_full = wp_basename ( $image_filepath );
 
 
 
-    //ruta local a las im�genes del post en cuesti�n
+    //ruta local a las imagenes del post en cuestion
     $post_filepath = str_replace($image_name_full,"",$image_filepath);
-    //imagen intermedia local, s�lo con el texto convertido a imagen
+    //imagen intermedia local, solo con el texto convertido a imagen
     $textimage = $post_filepath . "textimg.jpg";
-    //imagen resultante del proceso, a guardarse en el mismo directorio que las im�genes del post
+    //imagen resultante del proceso, a guardarse en el mismo directorio que las imogenes del post
     $outputfile = getMemeName($image_filepath);
 
     //texto del post a ser agregado a la imagen
     $texto = get_post_field('post_content', $post_id);
 
-    //funci�n que crea la imagen intermedia textimg.jpg que luego se sumar� sobre la original
+    //funcion que crea la imagen intermedia textimg.jpg que luego se sumara sobre la original
     CrearTextoImagen($texto, $image_filepath);
-    //funci�n que agrega la imagen intermedia sobre la original
+    //funcion que agrega la imagen intermedia sobre la original
     merge($textimage,$image_filepath,$outputfile);
   }
 }
@@ -424,24 +436,24 @@ require get_template_directory() . '/inc/functions-strap.php';
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 
 function CrearTextoImagen($text, $source_file) {
-	//averig�emos el directorio local de la imagen para guardar la siguiente ah�
+	//averigaemos el directorio local de la imagen para guardar la siguiente ahi
 
 	$image_name = wp_basename ($source_file);
 	$public_file_path = str_replace($image_name,"",$source_file);
 
-	//Establecer tipo y tama�o de letra
+	//Establecer tipo y tamanno de letra
   $font = get_stylesheet_directory().'/fonts/arial.ttf';
   $font_size = 14;
 
   // Mide dimensiones de la imagen original
   list($width, $height) = getimagesize($source_file);
 
-  //Asignar el ID de un tama�o est�ndar de fuentes del sistema, para medirlo
+  //Asignar el ID de un tamanno estandar de fuentes del sistema, para medirlo
   //y usar esas medidas para hacerle wrap al texto
   $font_id = 3;
 
 
-  //Romper el texto con saltos de l�nea de acuerdo con el ancho de la imagen
+  //Romper el texto con saltos de linea de acuerdo con el ancho de la imagen
   $h = imagefontheight($font_id);
   $fw = imagefontwidth($font_id);
   $text = wordwrap($text, ($width / $fw), "\n", FALSE);
@@ -450,13 +462,13 @@ function CrearTextoImagen($text, $source_file) {
   $offset_x = 3;
   $offset_y = 20;
 
-  // Obtener el tama�o del �rea de texto de acuerdo con
+  // Obtener el tamanno del area de texto de acuerdo con
   //la longitud del textoy el tipo de fuente
   $dims = imagettfbbox($font_size, 0, $font, $text);
   $text_width = $dims[4] - $dims[6] + $offset_x;
   $text_height = $dims[3] - $dims[5] + $offset_y;
 
-  // crea una imagen vac�a del mismo ancho que la imagen $image_p a la que sumar� el texto
+  // crea una imagen vacia del mismo ancho que la imagen $image_p a la que sumara el texto
   $image_p = imagecreatetruecolor($width, $text_height);
 
   // Preparar los colores de texto y de fondo
@@ -476,7 +488,7 @@ function CrearTextoImagen($text, $source_file) {
   imagedestroy($image_p);
 }
 
-//Funci�n para sumar las dos im�genes, una arriba y la otra abajo
+//Funcion para sumar las dos imagenes, una arriba y la otra abajo
 
 function merge($filename_x, $filename_y, $filename_result) {
 

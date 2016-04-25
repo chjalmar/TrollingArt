@@ -1,3 +1,6 @@
 uploads/
 plugins/
 *.bak
+themes/trollingarttheme/.sass-cache
+**/.sass-cache
+**/.sass-cache/*

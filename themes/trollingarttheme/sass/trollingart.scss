@@ -29,7 +29,10 @@
 }
 
 /* Google Post */
-
+.panel-tags {
+  margin-top: 20px;
+  color: #125688;
+}
 .panel-google-plus {
     position: relative;
     border-radius: 0px;
@@ -141,6 +144,14 @@
     font-weight: 700;
     min-height: 54px;
     margin-bottom: 10px;
+    .btn-success {
+      background: #55acee;
+      border-color: #55acee;
+    }
+    .btn-danger {
+      background: #3b5998;
+      border-color: #3b5998;
+    }
 }
 .panel-google-plus > .panel-footer > .btn {
     float: left;
