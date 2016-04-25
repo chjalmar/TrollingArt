@@ -48,18 +48,25 @@
     </div>
       <div class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
-          <li><a href="#">Link</a></li>
-          <li><a href="#">Link</a></li>
-          <li class="dropdown">
-            <a class="dropdown-toggle" href="#" data-toggle="dropdown">Channels</a>
-            <ul class="dropdown-menu">
-              <li><a href="#">Sub-link</a></li>
-              <li><a href="#">Sub-link</a></li>
-              <li><a href="#">Sub-link</a></li>
-              <li><a href="#">Sub-link</a></li>
-
-            </ul>
-          </li>
+					<?php if( has_nav_menu( 'primary' ) ) :
+			            wp_nav_menu( array(
+		                        'theme_location'  => 'primary',
+		                        'container'       => false,
+		                        //'menu_class'      => 'nav navbar-nav',//  'nav navbar-right'
+		                        'walker'          => new Bootstrap_Nav_Menu(),
+		                        'fallback_cb'     => null,
+				                'items_wrap'      => '%3$s',// skip the containing <ul>
+		                    )
+		                );
+	                else :
+		                wp_list_pages( array(
+				                'menu_class'      => 'nav navbar-nav',//  'nav navbar-right'
+				                'walker'          => new Bootstrap_Page_Menu(),
+				                'title_li'        => null,
+			                )
+		                );
+		            endif;
+		        ?>
         </ul>
         <ul class="nav navbar-right navbar-nav">
           <li class="dropdown">
@@ -88,11 +95,13 @@
   <div class="container">
     <div class="row">
       <div class="col-md-6">
-        <img src="<?php echo get_template_directory_uri(); ?>/images/logo-trollingart.jpg" class="img-responsive"> 
+        <a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
+					<img src="<?php echo get_template_directory_uri(); ?>/images/logo-trollingart.jpg" class="img-responsive">
+				</a>
       </div>
       <div class="col-md-6">
         <div class="well pull-right">
-          <img src="//placehold.it/280x100/E7E7E7">
+          <img src="//placehold.it/500x100/E7E7E7">
         </div>
       </div>
     </div>
