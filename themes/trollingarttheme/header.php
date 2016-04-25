@@ -101,7 +101,7 @@
       </div>
       <div class="col-md-6">
         <div class="well pull-right">
-          <img src="//placehold.it/500x100/E7E7E7">
+          <img class="img-responsive" src="//placehold.it/500x100/E7E7E7">
         </div>
       </div>
     </div>
