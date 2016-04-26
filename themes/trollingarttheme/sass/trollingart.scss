@@ -228,7 +228,9 @@
     max-width: 700px;
 }
 
-
+.content-inside {
+	min-height: 1000px;
+}
 /*Panel tabs*/
 .panel-tabs {
     position: relative;
@@ -248,19 +250,25 @@
     line-height: .85;
     border: 1px solid transparent;
     border-radius: 4px 4px 0 0;
-    color: #ffffff;
+    color: #333;
 }
-
+.inside-tabs .panel, .inside-tabs .panel-heading {
+	border: none !important;
+	box-shadow: none  !important;
+}
+.inside-tags {
+	padding-left: 15px;
+}
 .panel-tabs > li > a:hover {
     border-color: transparent;
-    color: #ffffff;
+    color: $principal;
     background-color: transparent;
 }
 
 .panel-tabs > li.active > a,
 .panel-tabs > li.active > a:hover,
 .panel-tabs > li.active > a:focus {
-    color: #fff;
+    color: $principal;
     cursor: default;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
@@ -269,7 +277,10 @@
     border-bottom-color: transparent;
 }
 
-
+.panel-primary > .panel-heading {
+	background: none;
+	color: #333;
+}
 
 /* */
 

@@ -15,73 +15,43 @@
 </style>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-	<div class="panel panel-primary">
-		 <div class="panel-heading">
-				 <h3 class="panel-title"><?php the_title(); ?></h3>
-				 <span class="pull-right">
-						 <!-- Tabs -->
-						 <ul class="nav panel-tabs">
-								 <li class="active"><a href="#tab1" data-toggle="tab">Tab 1</a></li>
-								 <li><a href="#tab2" data-toggle="tab">Tab 2</a></li>
-								 <li><a href="#tab3" data-toggle="tab" id="link3">Tab 3</a></li>
-								 <!--<li><a href="#tab4" data-toggle="tab">Tab 4</a></li>-->
-						 </ul>
-				 </span>
-		 </div>
-		 <div class="panel-body">
-				 <div class="tab-content">
-						 <div class="tab-pane active" id="tab1">
-							 <?php $imageMeme = getMemeName(wp_get_attachment_url( get_post_thumbnail_id($post_id))); ?>
-							 <img src="<?php echo $imageMeme; ?>" class="img-responsive">
-						 </div>
-						 <div class="tab-pane" id="tab2">
-							 <?php
-								 $datosArtists[] = get_field('artist');
-								 $museumField = get_field('museum');
-								 $masterpieceField = get_field('masterpiece');
-								 //print_r($datosArtists);
-								 foreach ($datosArtists as $key) {
-									 $idUsr = $key['ID'];
-									 $wikiPic = esc_attr( get_the_author_meta( 'wikiPicfile', $idUsr ) );
-									 //echo "<img src=$wikiPic>"."<br><br>".$key['user_description'];
-									 $bio = $key['user_description'];
-									 $nickName = $key['display_name'];
-								 }
-							 ?>
-							 <div class="modal-content">
-	                <div class="modal-body">
-	                    <center>
-	                    <img src="<?php echo $wikiPic; ?>" name="aboutme" width="140" height="140" border="0" class="img-circle"></a>
-	                    <h3 class="media-heading"><?php echo $nickName; ?></h3>
-	                    <span><strong>Skills: </strong></span>
-	                        <span class="label label-warning">HTML5/CSS</span>
-	                        <span class="label label-info">Adobe CS 5.5</span>
-	                        <span class="label label-info">Microsoft Office</span>
-	                        <span class="label label-success">Windows XP, Vista, 7</span>
-	                    </center>
-	                    <hr>
-	                    <center>
-	                    <p class="text-left"><strong>Bio: </strong><br>
-												<?php echo $bio; ?>
-											</p>
-	                    <br>
-	                    </center>
-	                </div>
-	                <div class="modal-footer">
-	                    <center>
-	                    <button type="button" class="btn btn-default" data-dismiss="modal">I've heard enough about Joe</button>
-	                    </center>
-	                </div>
-		            </div>
-						 </div>
-						 <div class="tab-pane" id="tab3">
-							 <?php getWikiInfo("$museumField", "$masterpieceField"); ?>
-						 </div>
-						 <!--<div class="tab-pane" id="tab4">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-
-								 Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te feugait nulla facilisi. Lorem ipsum dolor sit amet,
-							 </div>-->
-				 </div>
-		 </div>
- </div>
+  <div class="[ panel panel-default ] panel-google-plus">
+      <div class="panel-google-plus-tags">
+          <ul>
+              <li>#<?php getFirstCat($post_id); ?></li>
+          </ul>
+      </div>
+      <div class="panel-heading">
+					<?php
+						$str = get_avatar( get_the_author_meta('email') , 65 );
+						preg_match('/(src=["\'](.*?)["\'])/', $str, $match);  //find src="X" or src='X'
+						$split = preg_split('/["\']/', $match[0]); // split by quotes
+						$url_avatar = $split[1]; // X between quotes
+					?>
+          <img class="img-circle pull-left" src="<?php echo $url_avatar; ?>" alt="Mouse0270">
+          <h3><?php the_author_meta('display_name') ?></h3>
+          <h5><span>Shared publicly</span> - <span><?php echo get_the_date('Y, m, d');?></span> </h5>
+      </div>
+      <div class="panel-body">
+					<?php the_title( sprintf( '<h3 class="entry-title"><a href="%s" rel="bookmark">', esc_url( get_permalink() ) ), '</a></h3>' ); ?>
+          <!--<p>Just created a new snippet inspired by the Svbtle Menu. Find it here: <a href="http://bootsnipp.com/snippets/MaWrA">http://bootsnipp.com/snippets/MaWrA</a></p>-->
+          <a class="panel-google-plus-image" href="https://plus.google.com/photos/115077481218689845626/albums/6028961040749409985/6028961040650432498">
+							<?php //$imageMeme = getMemeName(wp_get_attachment_url( get_post_thumbnail_id($post_id))); ?>
+              <img src="<?php echo $imageMeme; ?>">
+          </a>
+      </div>
+      <div class="inside-tabs">
+          <?php get_template_part( 'template-parts/content', 'tab' ); ?>
+      </div>
+      <div class="inside-tags">
+        <p class="panel-tags"><?php $posttags = get_the_tags(); if ($posttags) { foreach($posttags as $tag) { echo '<span class="tags">#'.$tag->name . '</Span> '; } } ?></p>
+      </div>
+			<div class="panel-footer">
+		      <?php share(); ?>
+					<button type="button" class="btn btn-default">+1</button>
+					<button type="button" class="btn btn-default">
+							<span class="glyphicon glyphicon-share-alt"></span>
+					</button>
+			</div>
+  </div>
 </article><!-- #post-## -->

@@ -108,6 +108,15 @@ function trollingarttheme_widgets_init() {
 		'before_title'  => '<h2 class="widget-title">',
 		'after_title'   => '</h2>',
 	) );
+	register_sidebar( array(
+		'name'          => esc_html__( 'Sidebar thin', 'trollingarttheme' ),
+		'id'            => 'sidebar-2',
+		'description'   => '',
+		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
+		'after_widget'  => '</aside>',
+		'before_title'  => '<h2 class="widget-title">',
+		'after_title'   => '</h2>',
+	) );
 }
 add_action( 'widgets_init', 'trollingarttheme_widgets_init' );
 
@@ -462,7 +471,7 @@ function CrearTextoImagen($text, $source_file) {
 
 	//Establecer tipo y tamanno de letra
   $font = get_stylesheet_directory().'/fonts/arial.ttf';
-  $font_size = 14;
+  $font_size = 13;
 
   // Mide dimensiones de la imagen original
   list($width, $height) = getimagesize($source_file);
