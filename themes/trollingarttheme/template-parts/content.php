@@ -52,10 +52,7 @@
       </div>
 			<div class="panel-footer">
 		      <?php share(); ?>
-					<button type="button" class="btn btn-default">+1</button>
-					<button type="button" class="btn btn-default">
-							<span class="glyphicon glyphicon-share-alt"></span>
-					</button>
+					<a href="<?php echo get_permalink(); ?>" class="btn btn-default"><span class="fa fa-plus" aria-hidden="true"></span> Read more</a>
 			</div>
   </div>
 </article><!-- #post-## -->

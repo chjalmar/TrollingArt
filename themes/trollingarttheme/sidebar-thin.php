@@ -13,7 +13,9 @@ if ( ! is_active_sidebar( 'sidebar-2' ) ) {
 ?>
 <div class="col-md-2">
 	<div class="panel panel-default" id="sidebar">
-	<div class="panel-heading" style="color: rgb(255, 255, 255); background-color: rgb(136, 136, 136);">Sidebar</div>
+		<?php if(is_home() || is_front_page()) { ?>
+				<div class="panel-heading" style="color: rgb(255, 255, 255); background-color: rgb(136, 136, 136);">Sidebar</div>
+		<?php } ?>
 	<div class="panel-body">
 	<ul class="nav nav-stacked">
 	    <li><a href="#">Link</a></li>
@@ -53,10 +55,10 @@ if ( ! is_active_sidebar( 'sidebar-2' ) ) {
 	  <hr>
 
 	<div class="col col-span-12">
-	  <i class="icon-2x icon-facebook"></i>&nbsp;
-	  <i class="icon-2x icon-twitter"></i>&nbsp;
-	  <i class="icon-2x icon-linkedin"></i>&nbsp;
-	  <i class="icon-2x icon-pinterest"></i>
+	  <i class="fa-2x fa fa-facebook-square"></i>&nbsp;
+	  <i class="fa-2x fa fa-twitter-square"></i>&nbsp;
+	  <i class="fa-2x fa fa-instagram"></i>&nbsp;
+	  <i class="fa-2x fa fa-github-square"></i>
 	</div>
 
 	</div><!--/panel body-->

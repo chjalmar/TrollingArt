@@ -21,7 +21,9 @@
  		<!-- right content column-->
  		<div class="col-md-7 content-inside" id="content">
        	<div class="panel">
- 					<div class="panel-heading" style="color: rgb(255, 255, 255); background-color: rgb(17, 17, 17);">Top Stories</div>
+					<?php if(is_home() || is_front_page()) { ?>
+ 						<div class="panel-heading" style="color: rgb(255, 255, 255); background-color: rgb(17, 17, 17);">Top Stories</div>
+					<?php } ?>
          	<div class="panel-body">
  						<?php while ( have_posts() ) : the_post(); ?>
  						<?php

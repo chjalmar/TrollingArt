@@ -13,7 +13,9 @@ if ( ! is_active_sidebar( 'sidebar-1' ) ) {
 ?>
 <div class="col-md-3">
 	<div class="panel" id="midCol">
-		<div class="panel-heading" style="color: rgb(238, 238, 238); background-color: rgb(85, 85, 85);">New Stories</div>
+		<?php if(is_home() || is_front_page()) { ?>
+			<div class="panel-heading" style="color: rgb(238, 238, 238); background-color: rgb(85, 85, 85);">New Stories</div>
+		<?php } ?>
 		<div class="panel-body">
 
 			<img class="img-responsive" src="//placehold.it/300/77CCDD/66BBCC">
