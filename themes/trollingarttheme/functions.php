@@ -396,10 +396,10 @@ function getMemeName($image_filepath){
 
 function makeMeme($post_id) {
 
-
+	$selector = get_field('selector', $post_id );
 /*echo $image; exit();*/
 
-  if (has_post_thumbnail()) {
+  if (has_post_thumbnail() and $selector == true) {
 
     //Obtener ruta completa de la imagen original
     $image_filepath = get_attached_file( get_post_thumbnail_id($post_id));
