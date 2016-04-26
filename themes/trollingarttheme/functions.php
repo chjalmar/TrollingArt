@@ -68,7 +68,7 @@ function trollingarttheme_setup() {
 		//'aside',
 		//'image',
 		//'video',
-		//'banner',
+		'quote',
 		'link',
 	) );
 

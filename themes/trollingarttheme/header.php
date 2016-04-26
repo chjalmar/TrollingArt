@@ -20,11 +20,15 @@
 	if (is_home() || is_front_page()){
 		$tags = 'Art memes, Art jokes, Art gif and Art';
 	}else {
-		$datosArtists[] = get_field('artist');
-		$post = get_post($post->ID);
-		$tags = preg_replace('/[^A-Za-z0-9\-]/', ' ', get_field('masterpiece'));
-		$tags .= ' - '.$datosArtists[0]['display_name'].". ".$post->post_content;
-		//http://www.bootply.com/Tc1MNAk2MX#
+		// Crea estructura de metas si el post es original trollingArt
+		if (!get_post_format($post->ID)) {
+			$datosArtists[] = get_field('artist');
+			$post = get_post($post->ID);
+			$tags = preg_replace('/[^A-Za-z0-9\-]/', ' ', get_field('masterpiece'));
+			$tags .= ' - '.$datosArtists[0]['display_name'].". ".$post->post_content;
+		}else {
+			$tags = "";
+		}
 	}
 ?>
 <meta name="description" content="<?php echo mb_strimwidth($tags, 0, 155, "..."); ?>"/>
