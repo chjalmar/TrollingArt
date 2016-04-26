@@ -73,7 +73,7 @@
             <a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="glyphicon glyphicon-search"></i></a>
             <ul class="dropdown-menu" style="padding: 12px;">
                 <form class="form-inline">
-     				<button class="btn btn-default pull-right" type="submit"><i class="glyphicon glyphicon-search"></i></button><input class="form-control pull-left" type="text" placeholder="Search">
+     				<i class="glyphicon glyphicon-search"></i></button><?php get_search_form(); ?>
                 </form>
              </ul>
           </li>
