@@ -10,6 +10,6 @@
 ?>
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<hr>
-	<img src="http://placehold.it/800x300" class="img-responsive">
+	<img src="<?php echo wp_get_attachment_url(get_post_thumbnail_id($post->ID)); ?>" class="img-responsive">
 	<hr>
 </article><!-- #post-## -->

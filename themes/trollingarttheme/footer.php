@@ -11,16 +11,13 @@
 
 ?>
 
-	</div><!-- #content -->
-
-	<footer id="colophon" class="site-footer" role="contentinfo">
-		<div class="site-info">
-			<a href="<?php echo esc_url( __( 'https://wordpress.org/', 'trollingarttheme' ) ); ?>"><?php printf( esc_html__( 'Proudly powered by %s', 'trollingarttheme' ), 'WordPress' ); ?></a>
-			<span class="sep"> | </span>
-			<?php printf( esc_html__( 'Theme: %1$s by %2$s.', 'trollingarttheme' ), 'trollingarttheme', '<a href="http://automattic.com/" rel="designer">Automattic</a>' ); ?>
-		</div><!-- .site-info -->
-	</footer><!-- #colophon -->
-</div><!-- #page -->
+<footer>
+  <div class="container">
+  	<div class="row">
+      <div class="col-md-12 text-right"><h5>©Company 2014</h5></div>
+    </div>
+  </div>
+</footer>
 
 <?php wp_footer(); ?>
 

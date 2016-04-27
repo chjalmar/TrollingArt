@@ -16,16 +16,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="profile" href="http://gmpg.org/xfn/11">
 <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>">
-<?php 
+<?php
 	if (is_home() || is_front_page()){
 		$tags = 'Art memes, Art jokes, Art gif and Art';
 	}else {
-		$datosArtists[] = get_field('artist');
-		$post = get_post($post->ID);
-		$tags = preg_replace('/[^A-Za-z0-9\-]/', ' ', get_field('masterpiece'));
-		$tags .= ' - '.$datosArtists[0]['display_name'].". ".$post->post_content;
-		//http://www.bootply.com/Tc1MNAk2MX#
+		// Crea estructura de metas si el post es original trollingArt
+		if (!get_post_format($post->ID)) {
+			$datosArtists[] = get_field('artist');
+			$post = get_post($post->ID);
+			$tags = preg_replace('/[^A-Za-z0-9\-]/', ' ', get_field('masterpiece'));
+			$tags .= ' - '.$datosArtists[0]['display_name'].". ".$post->post_content;
+		}else {
+			$tags = "";
+		}
 	}
+	//http://www.bootply.com/render/85779
 ?>
 <meta name="description" content="<?php echo mb_strimwidth($tags, 0, 155, "..."); ?>"/>
 
@@ -38,58 +43,21 @@
 </head>
 
 <body <?php body_class(); ?>>
-<div id="page" class="site container">
-	<header id="masthead" class="site-header" role="banner">
-		<div class="site-branding">
-			<?php if ( is_front_page() || is_home() ) : ?>
-				<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
-			<?php else : ?>
-				<p class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></p>
-			<?php endif;
 
-			$description = get_bloginfo( 'description', 'display' );
-			if ( $description || is_customize_preview() ) : ?>
-				<p class="site-description"><?php echo $description; /* WPCS: xss ok. */ ?></p>
-			<?php endif; ?>
-		</div><!-- .site-branding -->
 
-		<nav id="site-navigation" class="main-navigation navbar navbar-default" role="navigation">
-			<a class="skip-link screen-reader-text" href="#content"><?php _e( 'Skip to content', 'trollingarttheme' ); ?></a>
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-main">
-                    <span class="sr-only"><?php _e('Toggle navigation', 'trollingarttheme'); ?></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <!--<a class="navbar-brand" href="#">Brand</a>-->
-            </div>
-
-            <div class="collapse navbar-collapse" id="navbar-collapse-main">
-	            <ul class="nav navbar-nav">
-		            <?php if( has_nav_menu( 'primary' ) ) :
-			            wp_nav_menu( array(
-		                        'theme_location'  => 'primary',
-		                        'container'       => false,
-		                        //'menu_class'      => 'nav navbar-nav',//  'nav navbar-right'
-		                        'walker'          => new Bootstrap_Nav_Menu(),
-		                        'fallback_cb'     => null,
-				                'items_wrap'      => '%3$s',// skip the containing <ul>
-		                    )
-		                );
-	                else :
-		                wp_list_pages( array(
-				                'menu_class'      => 'nav navbar-nav',//  'nav navbar-right'
-				                'walker'          => new Bootstrap_Page_Menu(),
-				                'title_li'        => null,
-			                )
-		                );
-		            endif; ?>
-	            </ul>
-	            <?php get_search_form(); ?>
-            </div><!-- /.navbar-collapse -->
-
-		</nav><!-- #site-navigation -->
-	</header><!-- #masthead -->
-
-	<div id="content" class="site-content">
+<header class="masthead">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home">
+					<img src="<?php echo get_template_directory_uri(); ?>/images/logo-trollingart.jpg" class="img-responsive">
+				</a>
+      </div>
+      <div class="col-md-6">
+        <div class="well pull-right">
+          <img class="img-responsive" src="//placehold.it/500x100/E7E7E7">
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

@@ -68,7 +68,7 @@ function trollingarttheme_setup() {
 		//'aside',
 		//'image',
 		//'video',
-		//'banner',
+		'quote',
 		'link',
 	) );
 
@@ -108,6 +108,15 @@ function trollingarttheme_widgets_init() {
 		'before_title'  => '<h2 class="widget-title">',
 		'after_title'   => '</h2>',
 	) );
+	register_sidebar( array(
+		'name'          => esc_html__( 'Sidebar thin', 'trollingarttheme' ),
+		'id'            => 'sidebar-2',
+		'description'   => '',
+		'before_widget' => '<aside id="%1$s" class="widget %2$s">',
+		'after_widget'  => '</aside>',
+		'before_title'  => '<h2 class="widget-title">',
+		'after_title'   => '</h2>',
+	) );
 }
 add_action( 'widgets_init', 'trollingarttheme_widgets_init' );
 
@@ -116,6 +125,7 @@ add_action( 'widgets_init', 'trollingarttheme_widgets_init' );
  */
 function trollingarttheme_scripts() {
 	wp_enqueue_style( '_s-style', get_stylesheet_uri() );
+	wp_enqueue_style('font-awesome', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css');
 	wp_enqueue_style('trolling-styles', get_template_directory_uri() . '/css/trollingart.css');
 
 	wp_enqueue_script( '_s-skip-link-focus-fix', get_template_directory_uri() . '/js/skip-link-focus-fix.js', array(), '20130115', true );
@@ -129,6 +139,118 @@ function trollingarttheme_scripts() {
 		wp_enqueue_script( 'trolling-js', get_template_directory_uri() . '/js/trollingart.js', array( 'jquery' ), 'v3.3.5', true );
 }
 add_action( 'wp_enqueue_scripts', 'trollingarttheme_scripts' );
+
+
+function getGravatarUrl($email) {
+	$str = $email;
+	preg_match('/(src=["\'](.*?)["\'])/', $str, $match);  //find src="X" or src='X'
+	$split = preg_split('/["\']/', $match[0]); // split by quotes
+	$url_avatar = $split[1]; // X between quotes
+	return $url_avatar;
+}
+
+/* +++++++++++++++++++++++++++++++++++++++++++ */
+/* 					Get First Cat                      */
+/* +++++++++++++++++++++++++++++++++++++++++++ */
+
+function getFirstCat($post_id) {
+  $cont=0;
+  foreach((get_the_category()) as $category) {
+    if ($cont == 0) {
+      $firstCat = $category->cat_name;
+    }
+    $cont++;
+  }
+	echo $firstCat;
+}
+
+/* +++++++++++++++++++++++++++++++++++++++++++ */
+/* 					Share Buttons                      */
+/* +++++++++++++++++++++++++++++++++++++++++++ */
+
+function share() {
+	//https://davidwalsh.name/bitly-php
+	$urlPost = get_permalink( $post->ID );
+?>
+<div class="pull-right">
+	<a class="js-social-share btn btn-danger btn-lg" href="http://www.facebook.com/sharer.php?u=<?php echo $urlPost; ?>" target="_blank"><i class="fa fa-facebook"></i></a>
+	<a class="js-social-share btn btn-success btn-lg" href="https://twitter.com/share?url=<?php echo $urlPost; ?>&amp;text=Simple%20Share%20Buttons&amp;hashtags=simplesharebuttons"><i class="fa fa-twitter"></i></a>
+</div>
+<?php
+}
+
+/* +++++++++++++++++++++++++++++++++++++++++++ */
+/* 					Numeric Pagination                 */
+/* +++++++++++++++++++++++++++++++++++++++++++ */
+
+function numericPagination() {
+
+	if( is_singular() )
+		return;
+
+	global $wp_query;
+
+	/** Stop execution if there's only 1 page */
+	if( $wp_query->max_num_pages <= 1 )
+		return;
+
+	$paged = get_query_var( 'paged' ) ? absint( get_query_var( 'paged' ) ) : 1;
+	$max   = intval( $wp_query->max_num_pages );
+
+	/**	Add current page to the array */
+	if ( $paged >= 1 )
+		$links[] = $paged;
+
+	/**	Add the pages around the current page to the array */
+	if ( $paged >= 3 ) {
+		$links[] = $paged - 1;
+		$links[] = $paged - 2;
+	}
+
+	if ( ( $paged + 2 ) <= $max ) {
+		$links[] = $paged + 2;
+		$links[] = $paged + 1;
+	}
+
+	echo '<div class="navigation"><ul>' . "\n";
+
+	/**	Previous Post Link */
+	if ( get_previous_posts_link() )
+		printf( '<li>%s</li>' . "\n", get_previous_posts_link() );
+
+	/**	Link to first page, plus ellipses if necessary */
+	if ( ! in_array( 1, $links ) ) {
+		$class = 1 == $paged ? ' class="active"' : '';
+
+		printf( '<li%s><a href="%s">%s</a></li>' . "\n", $class, esc_url( get_pagenum_link( 1 ) ), '1' );
+
+		if ( ! in_array( 2, $links ) )
+			echo '<li>â€¦</li>';
+	}
+
+	/**	Link to current page, plus 2 pages in either direction if necessary */
+	sort( $links );
+	foreach ( (array) $links as $link ) {
+		$class = $paged == $link ? ' class="active"' : '';
+		printf( '<li%s><a href="%s">%s</a></li>' . "\n", $class, esc_url( get_pagenum_link( $link ) ), $link );
+	}
+
+	/**	Link to last page, plus ellipses if necessary */
+	if ( ! in_array( $max, $links ) ) {
+		if ( ! in_array( $max - 1, $links ) )
+			echo '<li>â€¦</li>' . "\n";
+
+		$class = $paged == $max ? ' class="active"' : '';
+		printf( '<li%s><a href="%s">%s</a></li>' . "\n", $class, esc_url( get_pagenum_link( $max ) ), $max );
+	}
+
+	/**	Next Post Link */
+	if ( get_next_posts_link() )
+		printf( '<li>%s</li>' . "\n", get_next_posts_link() );
+
+	echo '</ul></div>' . "\n";
+
+}
 
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 /* 																	Nuevos campos para usuarios                         */
@@ -271,43 +393,43 @@ function getWikiInfo($museum, $masterpiece) {
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 
 function getMemeName($image_filepath){
-	 $image_name_full = wp_basename ( $image_filepath ); 
-   //el nombre de la imagen SIN la extensión
+	 $image_name_full = wp_basename ( $image_filepath );
+   //el nombre de la imagen SIN la extension
    $image_name = wp_basename ($image_filepath, ".jpg");
-   //ruta local a las imágenes del post en cuestión
+   //ruta local a las imagenes del post en cuestion
    $post_filepath = str_replace($image_name_full,"",$image_filepath);
 	 //Crear el nombre del archivo Meme
 	 $outputfile = $post_filepath . $image_name . "_meme.jpg";
-   return $outputfile;	
+   return $outputfile;
 }
 
 function makeMeme($post_id) {
 
-
+	$selector = get_field('selector', $post_id );
 /*echo $image; exit();*/
 
-  if (has_post_thumbnail()) {
+  if (has_post_thumbnail() and $selector == true) {
 
     //Obtener ruta completa de la imagen original
     $image_filepath = get_attached_file( get_post_thumbnail_id($post_id));
-    //sólo el nombre de la imagen con su extensión ('.jpg')
-    $image_name_full = wp_basename ( $image_filepath ); 
-    
-    
-    
-    //ruta local a las imágenes del post en cuestión
+    //solo el nombre de la imagen con su extension ('.jpg')
+    $image_name_full = wp_basename ( $image_filepath );
+
+
+
+    //ruta local a las imagenes del post en cuestion
     $post_filepath = str_replace($image_name_full,"",$image_filepath);
-    //imagen intermedia local, sólo con el texto convertido a imagen
+    //imagen intermedia local, solo con el texto convertido a imagen
     $textimage = $post_filepath . "textimg.jpg";
-    //imagen resultante del proceso, a guardarse en el mismo directorio que las imágenes del post
+    //imagen resultante del proceso, a guardarse en el mismo directorio que las imogenes del post
     $outputfile = getMemeName($image_filepath);
-    
+
     //texto del post a ser agregado a la imagen
     $texto = get_post_field('post_content', $post_id);
-    
-    //función que crea la imagen intermedia textimg.jpg que luego se sumará sobre la original
+
+    //funcion que crea la imagen intermedia textimg.jpg que luego se sumara sobre la original
     CrearTextoImagen($texto, $image_filepath);
-    //función que agrega la imagen intermedia sobre la original
+    //funcion que agrega la imagen intermedia sobre la original
     merge($textimage,$image_filepath,$outputfile);
   }
 }
@@ -347,63 +469,63 @@ require get_template_directory() . '/inc/functions-strap.php';
 
 
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
-/* 												 FUNCIONES DE PROCESAMIENTO DE IMÁGENES                       */
+/* 												 FUNCIONES DE PROCESAMIENTO DE IMAGENES                       */
 /* ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ */
 
 function CrearTextoImagen($text, $source_file) {
-	//averigüemos el directorio local de la imagen para guardar la siguiente ahí
-	
+	//averigaemos el directorio local de la imagen para guardar la siguiente ahi
+
 	$image_name = wp_basename ($source_file);
 	$public_file_path = str_replace($image_name,"",$source_file);
-	
-	//Establecer tipo y tamaño de letra
-  $font = './fonts/arial.ttf';
-  $font_size = 12;
-  
+
+	//Establecer tipo y tamanno de letra
+  $font = get_stylesheet_directory().'/fonts/arial.ttf';
+  $font_size = 13;
+
   // Mide dimensiones de la imagen original
   list($width, $height) = getimagesize($source_file);
-  
-  //Asignar el ID de un tamaño estándar de fuentes del sistema, para medirlo
+
+  //Asignar el ID de un tamanno estandar de fuentes del sistema, para medirlo
   //y usar esas medidas para hacerle wrap al texto
   $font_id = 3;
-  
-  
-  //Romper el texto con saltos de línea de acuerdo con el ancho de la imagen
+
+
+  //Romper el texto con saltos de linea de acuerdo con el ancho de la imagen
   $h = imagefontheight($font_id);
   $fw = imagefontwidth($font_id);
   $text = wordwrap($text, ($width / $fw), "\n", FALSE);
-  
+
   // Establecer el margen de la izquierda (x) y de arriba (y) para el texto
   $offset_x = 3;
   $offset_y = 20;
-   
-  // Obtener el tamaño del área de texto de acuerdo con
+
+  // Obtener el tamanno del area de texto de acuerdo con
   //la longitud del textoy el tipo de fuente
   $dims = imagettfbbox($font_size, 0, $font, $text);
   $text_width = $dims[4] - $dims[6] + $offset_x;
   $text_height = $dims[3] - $dims[5] + $offset_y;
-   
-  // crea una imagen vacía del mismo ancho que la imagen $image_p a la que sumaré el texto
+
+  // crea una imagen vacia del mismo ancho que la imagen $image_p a la que sumara el texto
   $image_p = imagecreatetruecolor($width, $text_height);
-  
+
   // Preparar los colores de texto y de fondo
   $text_color = imagecolorallocate($image_p, 0, 0, 0);
   $bg_color = imagecolorallocate($image_p, 255, 255, 255);
-  
+
   // Agregar el fondo del mismo ancho $width que la imagen
   imagefilledrectangle($image_p, 0, 0, $width, $text_height, $bg_color);
-   
+
   // Add text
   imagettftext($image_p, $font_size, 0, $offset_x, $offset_y, $text_color, $font, $text);
-   
+
   // Save the picture
-  imagejpeg($image_p, $public_file_path . 'textimg.jpg', 100); 
-  
+  imagejpeg($image_p, $public_file_path . 'textimg.jpg', 100);
+
   // Clear
   imagedestroy($image_p);
 }
 
-//Función para sumar las dos imágenes, una arriba y la otra abajo
+//Funcion para sumar las dos imagenes, una arriba y la otra abajo
 
 function merge($filename_x, $filename_y, $filename_result) {
 
