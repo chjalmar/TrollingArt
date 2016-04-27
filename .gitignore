@@ -4,3 +4,7 @@ plugins/
 themes/trollingarttheme/.sass-cache
 **/.sass-cache
 **/.sass-cache/*
+*.DS_Store
+*Thumbs.db
+*.sass-cache*
+*~imageoptim*
