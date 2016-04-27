@@ -48,7 +48,15 @@
             <?php get_template_part( 'template-parts/content', 'tab' ); ?>
         </div>
       <?php }else { ?>
-        <img src="<?php echo wp_get_attachment_url(get_post_thumbnail_id($post->ID)); ?>" class="img-responsive">
+        <blockquote>
+          <p>
+            <center>
+              <a class="panel-google-plus-image" href="<?php echo get_permalink(); ?>">
+                  <img src="<?php echo wp_get_attachment_url(get_post_thumbnail_id($post->ID)); ?>" class="img-responsive" alt="<?php echo get_the_title(); ?>">
+              </a>
+            </center>
+          </p>
+        </blockquote>
       <?php } ?>
       <div class="inside-tags">
         <p class="panel-tags"><?php $posttags = get_the_tags(); if ($posttags) { foreach($posttags as $tag) { echo '<span class="tags">#'.$tag->name . '</Span> '; } } ?></p>
