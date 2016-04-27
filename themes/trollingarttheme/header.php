@@ -30,6 +30,7 @@
 			$tags = "";
 		}
 	}
+	//http://www.bootply.com/render/85779
 ?>
 <meta name="description" content="<?php echo mb_strimwidth($tags, 0, 155, "..."); ?>"/>
 
@@ -42,58 +43,7 @@
 </head>
 
 <body <?php body_class(); ?>>
-<nav class="navbar navbar-static">
-   <div class="container">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="http://www.bootply.com" target="ext"><b>Bootply</b></a>
-      <a class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse">
-        <span class="glyphicon glyphicon-chevron-down"></span>
-      </a>
-    </div>
-      <div class="navbar-collapse collapse">
-        <ul class="nav navbar-nav">
-					<?php if( has_nav_menu( 'primary' ) ) :
-			            wp_nav_menu( array(
-		                        'theme_location'  => 'primary',
-		                        'container'       => false,
-		                        //'menu_class'      => 'nav navbar-nav',//  'nav navbar-right'
-		                        'walker'          => new Bootstrap_Nav_Menu(),
-		                        'fallback_cb'     => null,
-				                'items_wrap'      => '%3$s',// skip the containing <ul>
-		                    )
-		                );
-	                else :
-		                wp_list_pages( array(
-				                'menu_class'      => 'nav navbar-nav',//  'nav navbar-right'
-				                'walker'          => new Bootstrap_Page_Menu(),
-				                'title_li'        => null,
-			                )
-		                );
-		            endif;
-		        ?>
-        </ul>
-        <ul class="nav navbar-right navbar-nav">
-          <li class="dropdown">
-            <a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="glyphicon glyphicon-search"></i></a>
-            <ul class="dropdown-menu" style="padding: 12px;">
-                <form class="form-inline">
-     				<i class="glyphicon glyphicon-search"></i></button><?php get_search_form(); ?>
-                </form>
-             </ul>
-          </li>
-          <li class="dropdown">
-            <a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="glyphicon glyphicon-user"></i> <i class="glyphicon glyphicon-chevron-down"></i></a>
-            <ul class="dropdown-menu">
-              <li><a href="#">Login</a></li>
-              <li><a href="#">Profile</a></li>
-              <li class="divider"></li>
-              <li><a href="#">About</a></li>
-             </ul>
-          </li>
-        </ul>
-      </div>
-    </div>
-</nav><!-- /.navbar -->
+
 
 <header class="masthead">
   <div class="container">

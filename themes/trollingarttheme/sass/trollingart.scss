@@ -1,5 +1,8 @@
 @import "variables.scss";
 /* numericPagination */
+body {
+	margin-top: 25px !important;
+}
 .navigation li a,
 .navigation li a:hover,
 .navigation li.active a,

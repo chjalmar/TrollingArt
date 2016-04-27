@@ -1,6 +1,9 @@
 @charset "UTF-8";
 /* numericPagination */
 @import url("http://fonts.googleapis.com/css?family=Open+Sans:300,400");
+body {
+  margin-top: 25px !important; }
+
 .navigation li a,
 .navigation li a:hover,
 .navigation li.active a,

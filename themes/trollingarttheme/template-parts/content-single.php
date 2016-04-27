@@ -22,13 +22,7 @@
           </ul>
       </div>
       <div class="panel-heading">
-					<?php
-						$str = get_avatar( get_the_author_meta('email') , 65 );
-						preg_match('/(src=["\'](.*?)["\'])/', $str, $match);  //find src="X" or src='X'
-						$split = preg_split('/["\']/', $match[0]); // split by quotes
-						$url_avatar = $split[1]; // X between quotes
-					?>
-          <img class="img-circle pull-left" src="<?php echo $url_avatar; ?>" alt="Mouse0270">
+					<img class="img-circle pull-left" src="<?php $email = get_avatar( get_the_author_meta('email') , 65 ); echo getGravatarUrl($email); ?>" alt="<?php the_author_meta('display_name'); ?>">
           <h3><?php the_author_meta('display_name') ?></h3>
           <h5><span>Shared publicly</span> - <span><?php echo get_the_date('Y, m, d');?></span> </h5>
       </div>
