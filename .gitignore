@@ -1,7 +1,7 @@
 uploads/
 plugins/
 *.bak
-themes/trollingarttheme/.sass-cache
+themes/trollingarttheme/*.sass-cache*
 **/.sass-cache
 **/.sass-cache/*
 *.DS_Store
