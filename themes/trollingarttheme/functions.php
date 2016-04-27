@@ -140,6 +140,15 @@ function trollingarttheme_scripts() {
 }
 add_action( 'wp_enqueue_scripts', 'trollingarttheme_scripts' );
 
+
+function getGravatarUrl($email) {
+	$str = $email;
+	preg_match('/(src=["\'](.*?)["\'])/', $str, $match);  //find src="X" or src='X'
+	$split = preg_split('/["\']/', $match[0]); // split by quotes
+	$url_avatar = $split[1]; // X between quotes
+	return $url_avatar;
+}
+
 /* +++++++++++++++++++++++++++++++++++++++++++ */
 /* 					Get First Cat                      */
 /* +++++++++++++++++++++++++++++++++++++++++++ */
